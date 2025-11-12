@@ -21,43 +21,11 @@ import { useNavigate } from "react-router-dom";
 const posts = [
   {
     id: 1,
-    title: "happyfox pricing",
-    category: "competitors",
+    title: "My first blog post",
+    category: "general",
     author: { name: "John Doe", avatar: "", initials: "JD" },
     status: "draft",
-    date: "19 hours ago",
-  },
-  {
-    id: 2,
-    title: "olark alternatives",
-    category: "competitors",
-    author: { name: "Mike Smith", avatar: "", initials: "M" },
-    status: "published",
-    date: "3 days ago",
-  },
-  {
-    id: 3,
-    title: "voiceflow alternatives",
-    category: "competitors",
-    author: { name: "John Doe", avatar: "", initials: "JD" },
-    status: "published",
-    date: "7 days ago",
-  },
-  {
-    id: 4,
-    title: "voiceflow pricing",
-    category: "competitors",
-    author: { name: "John Doe", avatar: "", initials: "JD" },
-    status: "published",
-    date: "7 days ago",
-  },
-  {
-    id: 5,
-    title: "helpcrunch pricing",
-    category: "competitors",
-    author: { name: "John Doe", avatar: "", initials: "JD" },
-    status: "draft",
-    date: "7 days ago",
+    date: "Just now",
   },
 ];
 
