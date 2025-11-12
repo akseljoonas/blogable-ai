@@ -1,5 +1,6 @@
 import { FileText, FolderOpen, BarChart3, Sparkles, MessageSquare, HelpCircle, Settings, Plus } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { NavLink } from "@/components/NavLink";
 
 export const Sidebar = () => {
   return (
@@ -29,10 +30,14 @@ export const Sidebar = () => {
             <h3 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Page Management
             </h3>
-            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
+            <NavLink 
+              to="/posts" 
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted"
+              activeClassName="bg-muted font-medium"
+            >
               <FileText className="w-4 h-4" />
               Posts
-            </button>
+            </NavLink>
             <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
               <FolderOpen className="w-4 h-4" />
               Categories
@@ -43,10 +48,14 @@ export const Sidebar = () => {
             <h3 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Insights
             </h3>
-            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
+            <NavLink 
+              to="/analytics" 
+              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted"
+              activeClassName="bg-muted font-medium"
+            >
               <BarChart3 className="w-4 h-4" />
               Page analytics
-            </button>
+            </NavLink>
           </div>
 
           <div className="mb-6">
