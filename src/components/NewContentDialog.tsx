@@ -10,15 +10,41 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Plus } from "lucide-react";
+import { Badge } from "@/components/ui/badge";
+import { Plus, X } from "lucide-react";
 
 export const NewContentDialog = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [keywords, setKeywords] = useState("");
-  const [competitorUrls, setCompetitorUrls] = useState("");
-  const [toneBlogs, setToneBlogs] = useState("");
+  const [competitorUrls, setCompetitorUrls] = useState<string[]>([]);
+  const [competitorInput, setCompetitorInput] = useState("");
+  const [toneBlogs, setToneBlogs] = useState<string[]>([]);
+  const [toneInput, setToneInput] = useState("");
+
+  const handleAddCompetitor = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && competitorInput.trim()) {
+      e.preventDefault();
+      setCompetitorUrls([...competitorUrls, competitorInput.trim()]);
+      setCompetitorInput("");
+    }
+  };
+
+  const handleRemoveCompetitor = (index: number) => {
+    setCompetitorUrls(competitorUrls.filter((_, i) => i !== index));
+  };
+
+  const handleAddTone = (e: React.KeyboardEvent) => {
+    if (e.key === "Enter" && toneInput.trim()) {
+      e.preventDefault();
+      setToneBlogs([...toneBlogs, toneInput.trim()]);
+      setToneInput("");
+    }
+  };
+
+  const handleRemoveTone = (index: number) => {
+    setToneBlogs(toneBlogs.filter((_, i) => i !== index));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -27,8 +53,8 @@ export const NewContentDialog = () => {
     navigate("/editor", {
       state: {
         keyword: keywords,
-        competitors: competitorUrls.split('\n').filter(url => url.trim()),
-        toneOfVoice: toneBlogs.split('\n').filter(url => url.trim()),
+        competitors: competitorUrls,
+        toneOfVoice: toneBlogs,
       },
     });
     
@@ -68,32 +94,64 @@ export const NewContentDialog = () => {
             <Label htmlFor="competitors" className="text-sm font-medium mb-2 block">
               Competitor URLs
             </Label>
-            <Textarea
+            <Input
               id="competitors"
-              value={competitorUrls}
-              onChange={(e) => setCompetitorUrls(e.target.value)}
-              placeholder="https://competitor1.com/blog-post&#10;https://competitor2.com/blog-post&#10;https://competitor3.com/blog-post"
-              className="min-h-32"
+              value={competitorInput}
+              onChange={(e) => setCompetitorInput(e.target.value)}
+              onKeyDown={handleAddCompetitor}
+              placeholder="https://competitor.com/blog-post (press Enter to add)"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Add top-ranking competitor blog URLs (one per line)
+              Add top-ranking competitor blog URLs
             </p>
+            {competitorUrls.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {competitorUrls.map((url, index) => (
+                  <Badge key={index} variant="secondary" className="gap-1 pr-1">
+                    <span className="max-w-[300px] truncate">{url}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveCompetitor(index)}
+                      className="ml-1 hover:bg-muted rounded-sm p-0.5"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
             <Label htmlFor="tone" className="text-sm font-medium mb-2 block">
               Recent Blog URLs for Tone of Voice
             </Label>
-            <Textarea
+            <Input
               id="tone"
-              value={toneBlogs}
-              onChange={(e) => setToneBlogs(e.target.value)}
-              placeholder="https://yourblog.com/recent-post-1&#10;https://yourblog.com/recent-post-2&#10;https://yourblog.com/recent-post-3"
-              className="min-h-32"
+              value={toneInput}
+              onChange={(e) => setToneInput(e.target.value)}
+              onKeyDown={handleAddTone}
+              placeholder="https://yourblog.com/recent-post (press Enter to add)"
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Add URLs from your recent blogs to match your brand's tone of voice (one per line)
+              Add URLs from your recent blogs to match your brand's tone of voice
             </p>
+            {toneBlogs.length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {toneBlogs.map((url, index) => (
+                  <Badge key={index} variant="secondary" className="gap-1 pr-1">
+                    <span className="max-w-[300px] truncate">{url}</span>
+                    <button
+                      type="button"
+                      onClick={() => handleRemoveTone(index)}
+                      className="ml-1 hover:bg-muted rounded-sm p-0.5"
+                    >
+                      <X className="h-3 w-3" />
+                    </button>
+                  </Badge>
+                ))}
+              </div>
+            )}
           </div>
 
           <div className="flex justify-end gap-2 pt-4">
