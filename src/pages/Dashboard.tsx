@@ -15,8 +15,9 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
-import { Search, Plus, MoreVertical, Trash2, FolderOpen } from "lucide-react";
+import { Search, MoreVertical, Trash2, FolderOpen } from "lucide-react";
 import { useNavigate } from "react-router-dom";
+import { NewContentDialog } from "@/components/NewContentDialog";
 
 const posts = [
   {
@@ -43,10 +44,7 @@ const Dashboard = () => {
             <Button variant="ghost" size="sm">
               <FolderOpen className="h-4 w-4" />
             </Button>
-            <Button size="sm" onClick={() => navigate('/editor')}>
-              <Plus className="h-4 w-4 mr-2" />
-              New Content
-            </Button>
+            <NewContentDialog />
           </div>
         </div>
       </div>

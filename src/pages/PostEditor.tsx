@@ -13,12 +13,20 @@ import {
   ChevronDown,
   Upload 
 } from "lucide-react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
 
 const PostEditor = () => {
   const [activeTab, setActiveTab] = useState("post");
   const navigate = useNavigate();
+  const location = useLocation();
+  const [keyword, setKeyword] = useState("");
+
+  useEffect(() => {
+    if (location.state?.keyword) {
+      setKeyword(location.state.keyword);
+    }
+  }, [location.state]);
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -107,6 +115,8 @@ const PostEditor = () => {
                           Target Keyword(s) <span className="text-destructive">*</span>
                         </Label>
                         <Input 
+                          value={keyword}
+                          onChange={(e) => setKeyword(e.target.value)}
                           placeholder="e.g., SEO tools, content marketing"
                           className="font-medium"
                         />
