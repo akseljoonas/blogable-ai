@@ -1,4 +1,3 @@
-import { Sidebar } from "@/components/Sidebar";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -21,7 +20,6 @@ const PostEditor = () => {
 
   return (
     <div className="flex min-h-screen bg-background">
-      <Sidebar />
       <main className="flex-1 flex flex-col overflow-hidden">
         {/* Top Bar */}
         <div className="border-b border-border bg-background px-4 py-3 flex items-center justify-between">
