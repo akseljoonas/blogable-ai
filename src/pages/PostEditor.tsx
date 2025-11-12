@@ -15,18 +15,84 @@ import {
 } from "lucide-react";
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
+import { toast } from "sonner";
 
 const PostEditor = () => {
   const [activeTab, setActiveTab] = useState("post");
   const navigate = useNavigate();
   const location = useLocation();
+  
+  // Post content
+  const [title, setTitle] = useState("My new post");
+  const [content, setContent] = useState("");
+  
+  // Post settings
   const [keyword, setKeyword] = useState("");
+  const [description, setDescription] = useState("");
+  const [category, setCategory] = useState("");
+  const [author, setAuthor] = useState("");
+  const [reviewer, setReviewer] = useState("");
+  
+  // SEO settings
+  const [seoTitle, setSeoTitle] = useState("");
+  const [seoDescription, setSeoDescription] = useState("");
+  const [ogTitle, setOgTitle] = useState("");
+  const [ogDescription, setOgDescription] = useState("");
+
+  // Word count
+  const wordCount = content.trim() ? content.trim().split(/\s+/).length : 0;
+  const charCount = content.length;
 
   useEffect(() => {
     if (location.state?.keyword) {
       setKeyword(location.state.keyword);
     }
   }, [location.state]);
+
+  useEffect(() => {
+    // Sync SEO title with post title
+    if (!seoTitle) {
+      setSeoTitle(title);
+    }
+    if (!ogTitle) {
+      setOgTitle(title);
+    }
+  }, [title, seoTitle, ogTitle]);
+
+  const handleSaveSettings = () => {
+    // Validate required fields
+    if (!keyword.trim()) {
+      toast.error("Target keyword is required");
+      return;
+    }
+    if (!description.trim()) {
+      toast.error("Description is required");
+      return;
+    }
+    if (!author.trim()) {
+      toast.error("Author is required");
+      return;
+    }
+
+    // Save to localStorage (would be API call in production)
+    const postData = {
+      title,
+      content,
+      keyword,
+      description,
+      category,
+      author,
+      reviewer,
+      seoTitle,
+      seoDescription,
+      ogTitle,
+      ogDescription,
+      lastSaved: new Date().toISOString()
+    };
+    
+    localStorage.setItem(`blog-post-${Date.now()}`, JSON.stringify(postData));
+    toast.success("Settings saved successfully");
+  };
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -58,8 +124,8 @@ const PostEditor = () => {
               <RotateCcw className="h-4 w-4" />
             </Button>
             <div className="text-sm text-muted-foreground ml-2">
-              <div>0 words</div>
-              <div>0 characters</div>
+              <div>{wordCount} words</div>
+              <div>{charCount} characters</div>
             </div>
           </div>
 
@@ -84,12 +150,16 @@ const PostEditor = () => {
                 placeholder="My new post"
                 className="w-full text-5xl font-bold border-none outline-none resize-none bg-transparent mb-8"
                 rows={2}
-                defaultValue="My new post"
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
               />
               
-              <div className="prose prose-lg max-w-none">
-                <p className="text-muted-foreground">Click here to start writing ...</p>
-              </div>
+              <textarea
+                placeholder="Click here to start writing..."
+                className="w-full min-h-[600px] text-lg border-none outline-none resize-none bg-transparent prose prose-lg"
+                value={content}
+                onChange={(e) => setContent(e.target.value)}
+              />
             </div>
           </div>
 
@@ -145,13 +215,15 @@ const PostEditor = () => {
                         <Textarea 
                           placeholder="Enter description of post..."
                           className="min-h-24"
+                          value={description}
+                          onChange={(e) => setDescription(e.target.value)}
                         />
                       </div>
 
                       {/* Category */}
                       <div>
                         <Label className="text-sm font-medium mb-2 block">Category</Label>
-                        <Select>
+                        <Select value={category} onValueChange={setCategory}>
                           <SelectTrigger>
                             <SelectValue placeholder="Select category" />
                           </SelectTrigger>
@@ -169,19 +241,27 @@ const PostEditor = () => {
                           <Label className="text-sm font-medium">Authors</Label>
                           <span className="text-xs text-destructive">Add an author to publish/preview</span>
                         </div>
-                        <Input placeholder="Select author(s)" />
+                        <Input 
+                          placeholder="Select author(s)" 
+                          value={author}
+                          onChange={(e) => setAuthor(e.target.value)}
+                        />
                       </div>
 
                       {/* Reviewers */}
                       <div>
                         <Label className="text-sm font-medium mb-2 block">Reviewers</Label>
-                        <Input placeholder="Select reviewed by author(s)" />
+                        <Input 
+                          placeholder="Select reviewed by author(s)" 
+                          value={reviewer}
+                          onChange={(e) => setReviewer(e.target.value)}
+                        />
                       </div>
                     </div>
                   </div>
 
                   {/* Save Button */}
-                  <Button className="w-full" size="lg">
+                  <Button className="w-full" size="lg" onClick={handleSaveSettings}>
                     Save settings
                   </Button>
                   
@@ -198,7 +278,11 @@ const PostEditor = () => {
                   <div className="space-y-4">
                     <div>
                       <Label className="text-sm font-medium mb-2 block">SEO title</Label>
-                      <Input defaultValue="My new post" />
+                      <Input 
+                        value={seoTitle} 
+                        onChange={(e) => setSeoTitle(e.target.value)}
+                        placeholder="Enter SEO title"
+                      />
                     </div>
 
                     <div>
@@ -206,6 +290,8 @@ const PostEditor = () => {
                       <Textarea 
                         placeholder="Enter SEO description"
                         className="min-h-24"
+                        value={seoDescription}
+                        onChange={(e) => setSeoDescription(e.target.value)}
                       />
                     </div>
 
@@ -215,7 +301,11 @@ const PostEditor = () => {
                       <div className="space-y-4">
                         <div>
                           <Label className="text-sm font-medium mb-2 block">OG title</Label>
-                          <Input defaultValue="My new post" />
+                          <Input 
+                            value={ogTitle} 
+                            onChange={(e) => setOgTitle(e.target.value)}
+                            placeholder="Enter OG title"
+                          />
                         </div>
 
                         <div>
@@ -223,6 +313,8 @@ const PostEditor = () => {
                           <Textarea 
                             placeholder="Enter OG description"
                             className="min-h-24"
+                            value={ogDescription}
+                            onChange={(e) => setOgDescription(e.target.value)}
                           />
                         </div>
 
@@ -240,7 +332,7 @@ const PostEditor = () => {
                     </div>
                   </div>
 
-                  <Button className="w-full" size="lg">
+                  <Button className="w-full" size="lg" onClick={handleSaveSettings}>
                     Save settings
                   </Button>
                   
