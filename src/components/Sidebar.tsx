@@ -30,14 +30,10 @@ export const Sidebar = () => {
             <h3 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Page Management
             </h3>
-            <NavLink 
-              to="/posts" 
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted"
-              activeClassName="bg-muted font-medium"
-            >
+            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
               <FileText className="w-4 h-4" />
               Posts
-            </NavLink>
+            </button>
             <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
               <FolderOpen className="w-4 h-4" />
               Categories
@@ -48,14 +44,10 @@ export const Sidebar = () => {
             <h3 className="px-3 mb-2 text-xs font-semibold text-muted-foreground uppercase tracking-wider">
               Insights
             </h3>
-            <NavLink 
-              to="/analytics" 
-              className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted"
-              activeClassName="bg-muted font-medium"
-            >
+            <button className="w-full flex items-center gap-3 px-3 py-2 text-sm rounded-md hover:bg-muted">
               <BarChart3 className="w-4 h-4" />
               Page analytics
-            </NavLink>
+            </button>
           </div>
 
           <div className="mb-6">
@@ -90,7 +82,10 @@ export const Sidebar = () => {
 
       {/* Footer Button */}
       <div className="p-4 border-t border-border">
-        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
+        <Button 
+          className="w-full bg-primary hover:bg-primary/90 text-primary-foreground"
+          onClick={() => window.location.href = '/editor'}
+        >
           <Plus className="w-4 h-4 mr-2" />
           New Post
         </Button>
