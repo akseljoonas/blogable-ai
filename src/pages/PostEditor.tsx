@@ -5,7 +5,7 @@ import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { 
-  ArrowLeft, 
+  LayoutDashboard, 
   Undo2, 
   Redo2, 
   RotateCcw, 
@@ -14,9 +14,11 @@ import {
   Upload 
 } from "lucide-react";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 const PostEditor = () => {
   const [activeTab, setActiveTab] = useState("post");
+  const navigate = useNavigate();
 
   return (
     <div className="flex min-h-screen bg-background">
@@ -24,9 +26,9 @@ const PostEditor = () => {
         {/* Top Bar */}
         <div className="border-b border-border bg-background px-4 py-3 flex items-center justify-between">
           <div className="flex items-center gap-4">
-            <Button variant="ghost" size="sm">
-              <ArrowLeft className="h-4 w-4 mr-2" />
-              Exit
+            <Button variant="ghost" size="sm" onClick={() => navigate('/')}>
+              <LayoutDashboard className="h-4 w-4 mr-2" />
+              Dashboard
             </Button>
             <div className="flex items-center gap-2">
               <span className="text-sm font-medium px-3 py-1 rounded bg-muted">Draft</span>
