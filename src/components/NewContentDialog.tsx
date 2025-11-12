@@ -58,11 +58,11 @@ export const NewContentDialog = () => {
               id="keywords"
               value={keywords}
               onChange={(e) => setKeywords(e.target.value)}
-              placeholder="e.g., best SEO practices 2024"
+              placeholder="e.g., best SEO practices, SEO tips, content marketing"
               required
             />
             <p className="text-xs text-muted-foreground mt-1">
-              Main keywords you want to rank for
+              One or multiple keywords separated by commas
             </p>
           </div>
 
@@ -90,19 +90,17 @@ export const NewContentDialog = () => {
             </p>
           </div>
 
-          <div>
-            <Label htmlFor="tone" className="text-sm font-medium mb-2 block">
-              Recent Blogs for Tone of Voice
+          <div className="space-y-3">
+            <Label className="text-sm font-medium">
+              Recent Blog URLs for Tone of Voice
             </Label>
-            <Textarea
-              id="tone"
+            <Input
               value={toneBlogs}
               onChange={(e) => setToneBlogs(e.target.value)}
-              placeholder="Paste URLs or content from your recent blogs..."
-              className="min-h-32"
+              placeholder="https://yourblog.com/recent-post-1"
             />
-            <p className="text-xs text-muted-foreground mt-1">
-              Reference material to match your brand's tone of voice
+            <p className="text-xs text-muted-foreground">
+              Add URLs from your recent blogs to match your brand's tone of voice
             </p>
           </div>
 
