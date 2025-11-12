@@ -17,9 +17,7 @@ export const NewContentDialog = () => {
   const navigate = useNavigate();
   const [open, setOpen] = useState(false);
   const [keywords, setKeywords] = useState("");
-  const [competitor1, setCompetitor1] = useState("");
-  const [competitor2, setCompetitor2] = useState("");
-  const [competitor3, setCompetitor3] = useState("");
+  const [competitorUrls, setCompetitorUrls] = useState("");
   const [toneBlogs, setToneBlogs] = useState("");
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -29,8 +27,8 @@ export const NewContentDialog = () => {
     navigate("/editor", {
       state: {
         keyword: keywords,
-        competitors: [competitor1, competitor2, competitor3].filter(Boolean),
-        toneOfVoice: toneBlogs,
+        competitors: competitorUrls.split('\n').filter(url => url.trim()),
+        toneOfVoice: toneBlogs.split('\n').filter(url => url.trim()),
       },
     });
     
@@ -66,41 +64,35 @@ export const NewContentDialog = () => {
             </p>
           </div>
 
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
+          <div>
+            <Label htmlFor="competitors" className="text-sm font-medium mb-2 block">
               Competitor URLs
             </Label>
-            <Input
-              value={competitor1}
-              onChange={(e) => setCompetitor1(e.target.value)}
-              placeholder="https://competitor1.com/blog-post"
+            <Textarea
+              id="competitors"
+              value={competitorUrls}
+              onChange={(e) => setCompetitorUrls(e.target.value)}
+              placeholder="https://competitor1.com/blog-post&#10;https://competitor2.com/blog-post&#10;https://competitor3.com/blog-post"
+              className="min-h-32"
             />
-            <Input
-              value={competitor2}
-              onChange={(e) => setCompetitor2(e.target.value)}
-              placeholder="https://competitor2.com/blog-post"
-            />
-            <Input
-              value={competitor3}
-              onChange={(e) => setCompetitor3(e.target.value)}
-              placeholder="https://competitor3.com/blog-post"
-            />
-            <p className="text-xs text-muted-foreground">
-              Add up to 3 top-ranking competitor blog URLs for analysis
+            <p className="text-xs text-muted-foreground mt-1">
+              Add top-ranking competitor blog URLs (one per line)
             </p>
           </div>
 
-          <div className="space-y-3">
-            <Label className="text-sm font-medium">
+          <div>
+            <Label htmlFor="tone" className="text-sm font-medium mb-2 block">
               Recent Blog URLs for Tone of Voice
             </Label>
-            <Input
+            <Textarea
+              id="tone"
               value={toneBlogs}
               onChange={(e) => setToneBlogs(e.target.value)}
-              placeholder="https://yourblog.com/recent-post-1"
+              placeholder="https://yourblog.com/recent-post-1&#10;https://yourblog.com/recent-post-2&#10;https://yourblog.com/recent-post-3"
+              className="min-h-32"
             />
-            <p className="text-xs text-muted-foreground">
-              Add URLs from your recent blogs to match your brand's tone of voice
+            <p className="text-xs text-muted-foreground mt-1">
+              Add URLs from your recent blogs to match your brand's tone of voice (one per line)
             </p>
           </div>
 
