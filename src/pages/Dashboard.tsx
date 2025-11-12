@@ -22,6 +22,7 @@ const posts = [
   {
     id: 1,
     title: "My first blog post",
+    keyword: "best seo practices 2024",
     category: "general",
     author: { name: "John Doe", avatar: "", initials: "JD" },
     status: "draft",
@@ -115,7 +116,8 @@ const Dashboard = () => {
             >
               <div className="flex items-start justify-between">
                 <div className="flex-1 min-w-0">
-                  <h3 className="text-lg font-medium mb-3">{post.title}</h3>
+                  <h3 className="text-lg font-medium mb-1">{post.keyword}</h3>
+                  <p className="text-sm text-muted-foreground mb-3">{post.title}</p>
                   
                   <div className="flex items-center gap-3 text-sm">
                     <button

@@ -101,6 +101,19 @@ const PostEditor = () => {
                     <h3 className="text-lg font-semibold mb-4">Post settings</h3>
                     
                     <div className="space-y-4">
+                      {/* Target Keyword */}
+                      <div>
+                        <Label className="text-sm font-medium mb-2 block">
+                          Target Keyword(s) <span className="text-destructive">*</span>
+                        </Label>
+                        <Input 
+                          placeholder="e.g., SEO tools, content marketing"
+                          className="font-medium"
+                        />
+                        <p className="text-xs text-muted-foreground mt-1">
+                          Main keywords this post targets for SEO
+                        </p>
+                      </div>
                       {/* Cover Image */}
                       <div>
                         <Label className="text-sm font-medium mb-2 block">Cover image</Label>
